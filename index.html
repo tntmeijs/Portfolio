@@ -1,96 +1,26 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tahar's portfolio</title>
 
-  <style>
-    /*
-      Josh's Custom CSS Reset
-      https://www.joshwcomeau.com/css/custom-css-reset/
-    */
-
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-    }
-
-    * {
-      margin: 0;
-    }
-
-    body {
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    img,
-    picture,
-    video,
-    canvas,
-    svg {
-      display: block;
-      max-width: 100%;
-    }
-
-    input,
-    button,
-    textarea,
-    select {
-      font: inherit;
-    }
-
-    p,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      overflow-wrap: break-word;
-    }
-
-    #root,
-    #__next {
-      isolation: isolate;
-    }
-  </style>
-
-  <script id="startup">
+  <script>
     const hostname = window.location.hostname;
     const isDevelopmentBuild = hostname === "127.0.0.1" || hostname === "localhost";
 
-    let pixiJsUrl = "https://pixijs.download/v8.5.1/pixi.min.js";
-
-    // Dynamically toggle between a non-minimised PixiJS build and a minimised production build
     if (isDevelopmentBuild) {
       console.warn("Running application in local development mode!");
       document.title = `⚠️ ${document.title} ⚠️`;
-      pixiJsUrl = "https://pixijs.download/v8.5.1/pixi.js";
     }
-
-    const pixiJsScript = document.createElement("script");
-    pixiJsScript.src = pixiJsUrl;
-    document.head.appendChild(pixiJsScript);
-
-    // Once loaded, add the main application's script
-    pixiJsScript.onload = () => {
-      const entrypointScript = document.createElement("script");
-      entrypointScript.src = "./main.js";
-      entrypointScript.type = "module";
-      document.body.appendChild(entrypointScript);
-
-      // Once the main application's entrypoint has been loaded, the startup script can be removed
-      entrypointScript.onload = () => {
-        const startup = document.getElementById("startup");
-        startup.parentElement.removeChild(startup);
-      };
-    };
   </script>
 </head>
 
 <body>
+  <div id="app"></div>
+  <script type="module" src="/main.js"></script>
 </body>
 
 </html>

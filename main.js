@@ -1,10 +1,4 @@
-const BACKGROUND_COLOR = 0x181C14;
+import { entrypoint } from './src/app'
+import './style.css'
 
-const app = new PIXI.Application();
-await app.init({
-  width: window.innerWidth,
-  height: window.innerHeight,
-  backgroundColor: BACKGROUND_COLOR
-});
-
-document.body.appendChild(app.canvas);
+entrypoint();
