@@ -1,14 +1,15 @@
 import { Application } from "pixi.js";
 import { addConstellation, coverAreaWithStars } from "./stars";
-import { getSquareAcademicCapConstellationData, getBriefcaseConstellationData } from "./constellations";
+import { getSquareAcademicCapConstellationData, getBriefcaseConstellationData, getLightbulbConstellationData } from "./constellations";
 
 const BACKGROUND_COLOR = 0x181C14;
 
 const run = app => {
   coverAreaWithStars(0, 0, app.screen.width, app.screen.height, 150, app);
 
-  addConstellation(getSquareAcademicCapConstellationData(600, 200, 200, 200), app);
-  addConstellation(getBriefcaseConstellationData(600, 600, 250, 200), app);
+  addConstellation(getSquareAcademicCapConstellationData(500, 50, 200, 200), app);
+  addConstellation(getBriefcaseConstellationData(500, 300, 250, 200), app);
+  addConstellation(getLightbulbConstellationData(500, 550, 200, 300), app);
 };
 
 export const entrypoint = async () => {
