@@ -35,7 +35,7 @@ const newStar = (x, y) => (
     x: x,
     y: y,
     colour: STAR_COLOURS[Math.floor(Math.random() * STAR_COLOURS.length)],
-    size: Math.round((Math.random() * 4.0) + 2.0),
+    size: Math.round((Math.random() * 4.0) + 3.0),
     points: Math.round((Math.random() * 3.0) + 4.0),
     rotation: Math.random() * Math.PI * 2.0
   }
@@ -52,7 +52,6 @@ const newStar = (x, y) => (
  */
 export const coverAreaWithStars = (x, y, width, height, count, app) => {
   const gfx = new Graphics();
-  const filters = [];
 
   for (let i = 0; i < count; ++i) {
     const starX = x + (Math.random() * width);
@@ -65,8 +64,7 @@ export const coverAreaWithStars = (x, y, width, height, count, app) => {
       .star(star.x, star.y, star.points, star.size, 0, star.rotation)
       .fill({ color: star.colour });
 
-    filters.push(new BlurFilter({ strength: blurryness }));
-    shape.filters = [filters[i]];
+    shape.filters = [new BlurFilter({ strength: blurryness })];
   }
 
   app.stage.addChild(gfx);
@@ -76,11 +74,17 @@ export const coverAreaWithStars = (x, y, width, height, count, app) => {
  * @typedef ConstellationData
  * @type {object}
  * @property {Coordinate[]} coordinates List of stars' coordinates within the constellation
+ * @property {Edge[]} edges List of edges to connect the constellation's stars
  * 
  * @typedef Coordinate
  * @type {object}
  * @property {number} x Horizontal position
  * @property {number} y Vertical position
+ * 
+ * @typedef Edge
+ * @type {object}
+ * @property {number} startIndex Index of the coordinate where the edge starts from
+ * @property {number} endIndex Index of the coordinate where the edge ends at
  */
 
 /**
@@ -89,10 +93,34 @@ export const coverAreaWithStars = (x, y, width, height, count, app) => {
  * @param {pixijs["Application"]} app Application instance
  */
 export const addConstellation = (data, app) => {
-  const gfx = new Graphics();
+  const starGfx = new Graphics();
 
-  // TODO: render a constellation with lines that reveal on hover
+  for (const coordinate of data.coordinates) {
+    const blurryness = (Math.random() * 2.0) + 0.5;
+    const star = newStar(coordinate.x, coordinate.y);
 
-  app.stage.addChild(gfx);
+    const shape = starGfx
+      .star(star.x, star.y, star.points, star.size, 0, star.rotation)
+      .fill({ color: star.colour });
 
+    shape.filters = [new BlurFilter({ strength: blurryness })];
+  }
+
+  const edgeGfx = new Graphics();
+  edgeGfx.filters = [new BlurFilter({strength: 1.5})];
+
+  for (const edge of data.edges) {
+    const lineStart = data.coordinates[edge.startIndex];
+    const lineEnd = data.coordinates[edge.endIndex];
+
+    const shape = edgeGfx
+      .moveTo(lineStart.x, lineStart.y)
+      .lineTo(lineEnd.x, lineEnd.y)
+      .stroke({ color: 0xf7efda, width: 1.5 });
+    
+    shape.alpha = 0.25;
+  }
+
+  app.stage.addChild(starGfx);
+  app.stage.addChild(edgeGfx);
 };

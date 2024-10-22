@@ -1,20 +1,13 @@
 import { Application } from "pixi.js";
 import { addConstellation, coverAreaWithStars } from "./stars";
+import { getSquareAcademicCapConstellationData } from "./constellations";
 
 const BACKGROUND_COLOR = 0x181C14;
 
 const run = app => {
   coverAreaWithStars(0, 0, app.screen.width, app.screen.height, 150, app);
 
-  const constellation = {
-    coordinates: [
-      {x: 0, y: 0},
-      {x: 100, y: 50},
-      {x: 50, y: 100}
-    ]
-  };
-
-  addConstellation(constellation, app);
+  addConstellation(getSquareAcademicCapConstellationData(400, 200, 200, 200), app);
 };
 
 export const entrypoint = async () => {
